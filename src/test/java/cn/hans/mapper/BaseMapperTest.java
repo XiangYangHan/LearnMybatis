@@ -8,6 +8,7 @@ import org.junit.BeforeClass;
 
 import java.io.IOException;
 import java.io.Reader;
+import java.util.Collection;
 
 
 /**
@@ -31,5 +32,11 @@ public class BaseMapperTest {
 
     public SqlSession getSqlSession() {
         return sqlSessionFactory.openSession();
+    }
+
+    protected <B> void printList(Collection<B> collections) {
+        for (B b : collections) {
+            System.out.println(b);
+        }
     }
 }

@@ -4,6 +4,8 @@ import cn.hans.model.SysUser;
 import org.apache.ibatis.session.SqlSession;
 import org.junit.Test;
 
+import java.util.List;
+
 import static org.junit.Assert.*;
 
 
@@ -26,6 +28,17 @@ public class UserMapperTest extends BaseMapperTest {
             //sysUser不为空
             assertNotNull(sysUser);
             assertEquals("admin", sysUser.getUserName());
+        } finally {
+            sqlSession.close();
+        }
+    }
+
+    @Test
+    public void testSelectAll() {
+        SqlSession sqlSession = getSqlSession();
+        try {
+            List<SysUser> userList = sqlSession.selectList("cn.hans.mapper.UserMapper.selectAll");
+            printList(userList);
         } finally {
             sqlSession.close();
         }

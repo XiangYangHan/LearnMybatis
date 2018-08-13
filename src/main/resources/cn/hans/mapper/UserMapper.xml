@@ -17,11 +17,12 @@
     </resultMap>
 
     <select id="selectById" resultMap="userMap">
-        SELECT * FROM sys_user WHERE id = #{id}
+        SELECT id, user_name, user_password, user_email, user_info, head_img, create_time
+        FROM sys_user WHERE id = #{id}
     </select>
 
     <select id="selectAll" resultType="SysUser">
-        SELECT id, user_name, user_password, user_email, user_info, head_img
+        SELECT id, user_name, user_password, user_email, user_info, head_img, create_time
         FROM sys_user
     </select>
 </mapper>
