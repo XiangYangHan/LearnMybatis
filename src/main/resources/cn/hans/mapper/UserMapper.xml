@@ -1,4 +1,27 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--
+    此处命名空间namespace的值需要配置成对应mapper接口的全限定名称
+    MaBatis通过映射文件的namespace值将mapper接口与mapper映射文件关联起来
+-->
 <mapper namespace="cn.hans.mapper.UserMapper">
+
+    <resultMap id="userMap" type="SysUser">
+        <id column="id" property="id"/>
+        <result property="userName" column="user_name" javaType="str"/>
+        <result property="userPassword" column="user_password"/>
+        <result property="userEmail" column="user_email"/>
+        <result property="userInfo" column="user_info"/>
+        <result property="headImg" column="head_img" jdbcType="BLOB"/>
+        <result property="createTime" column="create_time" jdbcType="TIMESTAMP" />
+    </resultMap>
+
+    <select id="selectById" resultMap="userMap">
+        SELECT * FROM sys_user WHERE id = #{id}
+    </select>
+
+    <select id="selectAll" resultType="SysUser">
+        SELECT id, user_name, user_password, user_email, user_info, head_img
+        FROM sys_user
+    </select>
 </mapper>

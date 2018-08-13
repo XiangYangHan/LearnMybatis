@@ -3,10 +3,13 @@
 <configuration>
     <settings>
         <setting name="logImpl" value="LOG4J"/>
-        <setting name="mapUnderScoreToCamelCase" value="true"/>
+        <setting name="mapUnderscoreToCamelCase" value="true"/>
     </settings>
 
     <typeAliases>
+        <!--为一个类配置别名-->
+        <typeAlias type="java.lang.String" alias="str"/>
+        <!--再使用cn.hans.model包下的类时，输入全限定名时可不必输入包名-->
         <package name="cn.hans.model"/>
     </typeAliases>
 
@@ -25,6 +28,14 @@
     </environments>
 
     <mappers>
+        <!--注册mapper接口-->
+        <!--<mapper resource="cn/hans/mapper/UserMapper.xml"/>-->
+        <!--
+            通过包名配置mapper映射文件
+            MaBatis首先扫描此包下面的接口
+            将接口文件的全限定名称转换成路径
+            根据接口全限定名称转换成为的路径以.xml为后缀名称搜索mapper映射文件
+        -->
         <package name="cn.hans.mapper"/>
     </mappers>
 </configuration>
