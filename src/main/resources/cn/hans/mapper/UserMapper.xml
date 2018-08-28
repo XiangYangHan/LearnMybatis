@@ -41,4 +41,24 @@
         inner join sys_role r on ur.role_id = r.id
         where u.id = #{userId}
     </select>
+
+    <insert id="insertUser">
+        insert into
+        sys_user(id, user_name, user_password, user_email, user_info, head_img, create_time)
+        values  (
+          #{id}, #{userName}, #{userPassword}, #{userEmail}, #{userInfo},
+          #{headImg, jdbcType=BLOB}, <!--BLOB对应的类型是ByteArrayInputStream， 就是二进制输入流-->
+          #{createTime, jdbcType=TIMESTAMP} <!--Java中的时间一般都会使用java.util.Date，但数据库要区分Date、Time、DateTime，所以这里最好手动指明需要插入的日期类型-->
+        )
+        <!--
+            对于DateTime类型的数据库字段，是用的JdbcType可以是DATE、TIMESTAMP
+            数据库日期时间字段与jdbcType对应关系
+                Date == DATE
+                Time == TIME
+                DateTime == TIMESTAMP/DATE
+            容易出现的错误：
+                No enum constant org.apache.ibatis.type.JdbcType.DATETIME ==== jdbcType名称没有写正确，注意全是大写且没有DATETIME这个jdbcType类型
+                Incorrect datetime value: '22:38:01' for column 'create_time' at row 1 ==== jdbcType类型与数据库字段类型不匹配
+        -->
+    </insert>
 </mapper>

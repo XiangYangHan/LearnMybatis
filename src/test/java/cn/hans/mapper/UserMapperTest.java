@@ -5,6 +5,7 @@ import cn.hans.model.SysUser;
 import org.apache.ibatis.session.SqlSession;
 import org.junit.Test;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -71,6 +72,32 @@ public class UserMapperTest extends BaseMapperTest {
             assertNotNull(roleList);
             printList(roleList);
         } finally {
+            sqlSession.close();
+        }
+    }
+
+    @Test
+    public void testInsertUser() {
+        SqlSession sqlSession = getSqlSession();
+        try {
+            SysUser sysUser = new SysUser();
+            sysUser.setUserName("test1");
+            sysUser.setUserPassword("123456");
+            sysUser.setUserEmail("1@test.com");
+            sysUser.setUserInfo("test1 info");
+            //可以存放二进制数据
+            //java.io.ByteArrayInputStream@44a3ec6b(ByteArrayInputStream)
+            sysUser.setHeadImg(new byte[]{1,2,3});
+            sysUser.setCreateTime(new Date());
+            //插入一条数据，返回的是写入影响的行数
+            int result = sqlSession.insert("cn.hans.mapper.UserMapper.insertUser", sysUser);
+            assertEquals(1, result);
+            //id为null，因为没有设置回写id值
+            assertNull(sysUser.getId());
+        } finally {
+            //为了避免影响其他测试,这里rollback本次insert
+            sqlSession.rollback();
+            //sqlSessionFactory.openSession()返回的SqlSession默认是不自动提交的，所以上面的rollback()语句即使注释掉也不会保存数据到数据库
             sqlSession.close();
         }
     }
