@@ -25,4 +25,20 @@
         SELECT id, user_name, user_password, user_email, user_info, head_img, create_time
         FROM sys_user
     </select>
+
+    <select id="selectRolesByUserId" resultType="SysRole">
+        select r.id, r.role_name, r.enabled, r.create_by, r.create_time
+        from sys_user u
+        inner join sys_user_role ur on u.id = ur.user_id
+        inner join sys_role r on ur.role_id = r.id
+        where u.id = #{userId}
+    </select>
+
+    <select id="selectRolesWithUserInfoByUserId" resultType="SysRole">
+        select r.id, r.role_name, r.enabled, r.create_by, r.create_time, u.user_name `user.userName`, u.user_email `user.userEmail`
+        from sys_user u
+        inner join sys_user_role ur on u.id = ur.user_id
+        inner join sys_role r on ur.role_id = r.id
+        where u.id = #{userId}
+    </select>
 </mapper>

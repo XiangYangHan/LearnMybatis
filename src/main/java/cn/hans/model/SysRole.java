@@ -18,6 +18,28 @@ public class SysRole {
 
     private Date createTime;
 
+    private SysUser user;
+
+    @Override
+    public String toString() {
+        return "SysRole{" +
+                "id=" + id +
+                ", roleName='" + roleName + '\'' +
+                ", enabled=" + enabled +
+                ", createBy=" + createBy +
+                ", createTime=" + createTime +
+                ", sysUser = " + user +
+                '}';
+    }
+
+    public SysUser getUser() {
+        return user;
+    }
+
+    public void setUser(SysUser user) {
+        this.user = user;
+    }
+
     public Long getId() {
         return id;
     }

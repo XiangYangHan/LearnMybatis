@@ -1,10 +1,13 @@
 package cn.hans.mapper;
 
+import cn.hans.model.SysRole;
 import cn.hans.model.SysUser;
 import org.apache.ibatis.session.SqlSession;
 import org.junit.Test;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import static org.junit.Assert.*;
 
@@ -39,6 +42,34 @@ public class UserMapperTest extends BaseMapperTest {
         try {
             List<SysUser> userList = sqlSession.selectList("cn.hans.mapper.UserMapper.selectAll");
             printList(userList);
+        } finally {
+            sqlSession.close();
+        }
+    }
+
+    @Test
+    public void testSelectRolesByUserId() {
+        SqlSession sqlSession = getSqlSession();
+        try {
+            Map<String, Object> param = new HashMap<>();
+            param.put("userId", 1L);
+            List<SysRole> roleList = sqlSession.selectList("cn.hans.mapper.UserMapper.selectRolesByUserId", param);
+            assertNotNull(roleList);
+            printList(roleList);
+        } finally {
+            sqlSession.close();
+        }
+    }
+
+    @Test
+    public void testSelectRolesWithUserInfoByUserId() {
+        SqlSession sqlSession = getSqlSession();
+        try {
+            Map<String, Object> param = new HashMap<>();
+            param.put("userId", 1L);
+            List<SysRole> roleList = sqlSession.selectList("cn.hans.mapper.UserMapper.selectRolesWithUserInfoByUserId", param);
+            assertNotNull(roleList);
+            printList(roleList);
         } finally {
             sqlSession.close();
         }

@@ -28,8 +28,9 @@ public class SysUser {
         return "SysUser{" +
                 "id=" + id +
                 ", userName='" + userName + '\'' +
+                ", userPassword='" + userPassword + '\'' +
+                ", userEmail='" + userEmail + '\'' +
                 ", userInfo='" + userInfo + '\'' +
-                ", headImg=" + Arrays.toString(headImg) +
                 ", createTime=" + createTime +
                 '}';
     }
