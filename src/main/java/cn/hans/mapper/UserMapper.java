@@ -26,4 +26,8 @@ public interface UserMapper {
     int insertUserGenerateId2(SysUser sysUser);
 
     int updateById(SysUser sysUser);
+
+    int deleteById(Long id);
+
+    int deleteById(SysUser sysUser);
 }

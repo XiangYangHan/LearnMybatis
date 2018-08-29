@@ -1,4 +1,20 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="cn.hans.mapper.RoleMapper">
+
+    <select id="selectRolesByUserIdAndRoleEnabled" resultType="SysRole">
+        select r.id, r.role_name, r.enabled, r.create_by, r.create_time
+        from sys_user u
+        inner join sys_user_role ur on u.id = ur.user_id
+        inner join sys_role r on ur.role_id = r.id
+        <!--
+            where u.id = #{param1} and r.enabled = #{arg1}
+            如果在mapper接口的参数中不加注解而又有一个以上的参数时，MyBatis将会报如下错误：
+                Parameter 'userId' not found. Available parameters are [arg1, arg0, param1, param2]
+                其中arg0、arg1、param1、param2都是MyBatis根据参数位置为其定义的在sql语句中可以使用的名字。
+                arg0/param1 ==> 第一个参数
+                arg1/param2 ==> 第二个参数
+        -->
+        where u.id = #{userId} and r.enabled = #{enabled}
+    </select>
 </mapper>

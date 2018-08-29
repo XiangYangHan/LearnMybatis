@@ -150,16 +150,35 @@ public class UserMapperTest extends BaseMapperTest {
             SysUser sysUser = userMapper.selectById(1L);
             assertEquals("admin", sysUser.getUserName());
             sysUser.setUserName("admin_testUpdateById");
+//            sysUser.setHeadImg(new byte[]{1,2,3,4,5});
             int result = userMapper.updateById(sysUser);
             assertEquals(1, result);
             sysUser = userMapper.selectById(1L);
             assertEquals("admin_testUpdateById", sysUser.getUserName());
         } finally {
-            sqlSession.rollback();
+//            sqlSession.rollback();
+//            sqlSession.commit();//更新head_img
             sqlSession.close();
         }
     }
 
-
+    @Test
+    public void testDeleteById() {
+        SqlSession sqlSession = getSqlSession();
+        try {
+            UserMapper userMapper = sqlSession.getMapper(UserMapper.class);
+            SysUser user1 = userMapper.selectById(1L);
+            assertNotNull(user1);
+            assertEquals(1, userMapper.deleteById(1L));
+            assertNull(userMapper.selectById(1L));
+            SysUser user2 = userMapper.selectById(1001L);
+            assertNotNull(user2);
+            assertEquals(1, userMapper.deleteById(user2));
+            assertNull(userMapper.selectById(1001L));
+        } finally {
+            sqlSession.rollback();
+            sqlSession.close();
+        }
+    }
 
 }

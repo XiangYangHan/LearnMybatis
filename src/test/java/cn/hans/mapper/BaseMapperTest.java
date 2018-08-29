@@ -4,6 +4,8 @@ import org.apache.ibatis.io.Resources;
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.apache.ibatis.session.SqlSessionFactoryBuilder;
+import org.junit.After;
+import org.junit.Before;
 import org.junit.BeforeClass;
 
 import java.io.IOException;
@@ -18,6 +20,8 @@ import java.util.Collection;
 public class BaseMapperTest {
 
     private static SqlSessionFactory sqlSessionFactory;
+
+    public SqlSession sqlSession;
 
     @BeforeClass
     public static void init() {
@@ -38,5 +42,15 @@ public class BaseMapperTest {
         for (B b : collections) {
             System.out.println(b);
         }
+    }
+
+    @Before
+    public void initSqlSession() {
+        sqlSession = getSqlSession();
+    }
+
+    @After
+    public void closeSqlSession() {
+        sqlSession.close();
     }
 }
