@@ -101,4 +101,65 @@ public class UserMapperTest extends BaseMapperTest {
             sqlSession.close();
         }
     }
+
+    @Test
+    public void testInsertUserGenerateId() {
+        SqlSession sqlSession = getSqlSession();
+        try {
+            SysUser sysUser = new SysUser();
+            sysUser.setUserName("test2");
+            sysUser.setUserPassword("123456");
+            sysUser.setUserEmail("2@test.com");
+            sysUser.setUserInfo("test2 info");
+            sysUser.setHeadImg(new byte[]{1,2,3});
+            sysUser.setCreateTime(new Date());
+            int result = sqlSession.insert("cn.hans.mapper.UserMapper.insertUserGenerateId", sysUser);
+            assertEquals(1, result);
+            assertNotNull(sysUser.getId());
+        } finally {
+            sqlSession.rollback();
+            sqlSession.close();
+        }
+    }
+
+    @Test
+    public void testInsertUserGenerateId2() {
+        SqlSession sqlSession = getSqlSession();
+        try {
+            SysUser sysUser = new SysUser();
+            sysUser.setUserName("test3");
+            sysUser.setUserPassword("123456");
+            sysUser.setUserEmail("3@test.com");
+            sysUser.setUserInfo("test3 info");
+            sysUser.setHeadImg(new byte[]{1,2,3});
+            sysUser.setCreateTime(new Date());
+            int result = sqlSession.insert("cn.hans.mapper.UserMapper.insertUserGenerateId2", sysUser);
+            assertEquals(1, result);
+            assertNotNull(sysUser.getId());
+        } finally {
+            sqlSession.rollback();
+            sqlSession.close();
+        }
+    }
+
+    @Test
+    public void testUpdateById() {
+        SqlSession sqlSession = getSqlSession();
+        try {
+            UserMapper userMapper = sqlSession.getMapper(UserMapper.class);
+            SysUser sysUser = userMapper.selectById(1L);
+            assertEquals("admin", sysUser.getUserName());
+            sysUser.setUserName("admin_testUpdateById");
+            int result = userMapper.updateById(sysUser);
+            assertEquals(1, result);
+            sysUser = userMapper.selectById(1L);
+            assertEquals("admin_testUpdateById", sysUser.getUserName());
+        } finally {
+            sqlSession.rollback();
+            sqlSession.close();
+        }
+    }
+
+
+
 }

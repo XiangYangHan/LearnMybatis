@@ -45,7 +45,7 @@
     <insert id="insertUser">
         insert into
         sys_user(id, user_name, user_password, user_email, user_info, head_img, create_time)
-        values  (
+        values (
           #{id}, #{userName}, #{userPassword}, #{userEmail}, #{userInfo},
           #{headImg, jdbcType=BLOB}, <!--BLOB对应的类型是ByteArrayInputStream， 就是二进制输入流-->
           #{createTime, jdbcType=TIMESTAMP} <!--Java中的时间一般都会使用java.util.Date，但数据库要区分Date、Time、DateTime，所以这里最好手动指明需要插入的日期类型-->
@@ -61,4 +61,49 @@
                 Incorrect datetime value: '22:38:01' for column 'create_time' at row 1 ==== jdbcType类型与数据库字段类型不匹配
         -->
     </insert>
+
+    <insert id="insertUserGenerateId" useGeneratedKeys="true" keyProperty="id">
+    <!--
+        这种写法只适合支持主键自增的数据库
+        MyBatis使用JDBC的getGeneratedKeys方法取出数据库内部生成的主键后将其赋值给keyProperty配置的属性。
+        当keyProperty设置多个属性时使用逗号隔开，这种情况还需要设置keyColumn属性按顺序指定数据库的列。
+        keyColumn中各列的值将会按顺序赋值给keyProperty中设置的属性。
+    -->
+        insert into
+        sys_user(id, user_name, user_password, user_email, user_info, head_img, create_time)
+        values (
+          #{id}, #{userName}, #{userPassword}, #{userEmail}, #{userInfo},
+          #{headImg, jdbcType=BLOB},
+          #{createTime, jdbcType=TIMESTAMP}
+        )
+    </insert>
+
+    <insert id="insertUserGenerateId2">
+        insert into
+        sys_user(id, user_name, user_password, user_email, user_info, head_img, create_time)
+        values (
+          #{id}, #{userName}, #{userPassword}, #{userEmail}, #{userInfo},
+          #{headImg, jdbcType=BLOB},
+          #{createTime, jdbcType=TIMESTAMP}
+        )
+        <selectKey keyProperty="id" order="AFTER" keyColumn="id" resultType="long"><!--这个子标签没有id属性，IDEA提示错误的话可以忽略-->
+            <!--
+                这种方法既适用于支持主键自增的数据库，又适用于不提供自增主键的数据库（比如：Oracle）
+                这个子标签的order属性值设置与使用的数据库有关
+                它指示MyBatis在insert语句执行前还是执行后去执行selectKey中的语句以获新增记录的正确的主键
+            -->
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+    </insert>
+
+    <update id="updateById">
+        update sys_user
+        set user_name = #{userName}
+            ,user_password = #{userPassword}
+            ,user_email = #{userEmail}
+            ,user_info = #{userInfo}
+            ,head_img = #{headImg, jdbcType=BLOB}
+            ,create_time = #{createTime, jdbcType=TIMESTAMP}
+        where id = #{id}
+    </update>
 </mapper>
