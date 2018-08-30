@@ -1,4 +1,4 @@
-package cn.hans.mapper;
+package cn.hans.util;
 
 import org.apache.ibatis.io.Resources;
 import org.apache.ibatis.session.SqlSession;
@@ -17,7 +17,7 @@ import java.util.Collection;
  * @author : hans
  * @date : 2018/8/13 19:14
  */
-public class BaseMapperTest {
+public class TestBase {
 
     private static SqlSessionFactory sqlSessionFactory;
 
@@ -46,11 +46,13 @@ public class BaseMapperTest {
 
     @Before
     public void initSqlSession() {
+        System.out.println("method invoke in TestBase.initSqlSession");
         sqlSession = getSqlSession();
     }
 
     @After
     public void closeSqlSession() {
+        System.out.println("method invoke in TestBase.closeSqlSession");
         sqlSession.close();
     }
 }

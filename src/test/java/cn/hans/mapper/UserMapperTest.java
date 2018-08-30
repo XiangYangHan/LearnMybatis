@@ -2,6 +2,7 @@ package cn.hans.mapper;
 
 import cn.hans.model.SysRole;
 import cn.hans.model.SysUser;
+import cn.hans.util.TestBase;
 import org.apache.ibatis.session.SqlSession;
 import org.junit.Test;
 
@@ -17,7 +18,7 @@ import static org.junit.Assert.*;
  * @author : hans
  * @date : 2018/8/13 19:22
  */
-public class UserMapperTest extends BaseMapperTest {
+public class UserMapperTest extends TestBase {
 
     @Test
     public void testSelectById() {
