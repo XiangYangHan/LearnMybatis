@@ -23,6 +23,7 @@ public class MyMapperProxy<T> implements InvocationHandler {
      */
     @Override
     public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
+        System.out.println("method invoke in MyMapperProxy.invoke");
         //针对不同的sql类型，需要调用sqlSession不同的方法
         //todo sql类型如何通知给代理类呢？2018年8月30日 08点01分
         //sqlSession中方法有很多，同一个方法根据参数不同有相应的重载版本
