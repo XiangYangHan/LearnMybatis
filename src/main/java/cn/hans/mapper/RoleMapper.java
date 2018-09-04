@@ -84,5 +84,7 @@ public interface RoleMapper {
     })
     int updateById(SysRole sysRole);
 
+    @Delete({"delete from sys_role where id = #{id}"})
+    int deleteById(Long id);
 
 }

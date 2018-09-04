@@ -89,4 +89,14 @@ public class RoleMapperTest extends TestBase {
         System.out.println(new Date().getTime() - sysRole2.getCreateTime().getTime());//此处得出的值可能为负数，因为上面更新时间到数据库中时只能保存到秒的精度
     }
 
+    @Test
+    public void testDeleteById() {
+        RoleMapper roleMapper = sqlSession.getMapper(RoleMapper.class);
+        SysRole sysRole1 = roleMapper.selectById(1L);
+        assertNotNull(sysRole1);
+        assertEquals(1L, sysRole1.getId().longValue());
+        assertTrue(roleMapper.deleteById(1L) > 0);
+        SysRole sysRole2 = roleMapper.selectById2(1L);
+        assertNull(sysRole2);
+    }
 }
