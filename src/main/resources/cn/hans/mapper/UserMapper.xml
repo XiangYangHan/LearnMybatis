@@ -1,4 +1,42 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="cn.hans.mapper.UserMapper">
+
+    <!--
+        在MyBatis的标签中可以使用功能强大的OGNL表达式语言
+        MyBatis在动态SQL中支持一下几种标签
+            if
+            choose (when\otherwise)
+            trim (where\set)
+            foreach
+            bind
+    -->
+
+    <select id="selectByUser" resultType="cn.hans.model.SysUser">
+        select
+          id
+          , user_name
+          , user_password
+          , user_email
+          , user_info
+          , head_img
+          , create_time
+        from
+          sys_user
+        <!--
+          这样写当不想使用user_email作为查询条件时则没有办法通过入参来控制SQL语句，只能在接口中再写一个方法。
+        where
+          user_name like concat('%', #{userName}, '%')
+          and user_email = #{userEmail}
+          下面的写法则可以通过入参来动态改变SQL语句的查询条件。
+        -->
+        where 1 = 1
+        <if test="userName != null and userName != ''">
+            and user_name like concat('%', #{userName}, '%')
+        </if>
+        <if test="userEmail != '' and userEmail != null">
+            and user_email  = #{userEmail}
+        </if>
+    </select>
+
 </mapper>
