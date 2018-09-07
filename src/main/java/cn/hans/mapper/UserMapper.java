@@ -11,4 +11,8 @@ import java.util.List;
 public interface UserMapper {
 
     List<SysUser> selectByUser(SysUser sysUser);
+
+    int updateByIdSelective(SysUser sysUser);
+
+    SysUser selectById(SysUser sysUser);
 }

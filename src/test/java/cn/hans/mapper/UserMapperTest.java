@@ -33,4 +33,17 @@ public class UserMapperTest extends TestBase {
         userList = userMapper.selectByUser(queryUser);
         assertTrue(userList.size() == 0);
     }
+
+    @Test
+    public void testUpdateByIdSelective() {
+        SysUser user = new SysUser();
+        //更新id为1的用户记录
+        user.setId(1L);
+        user.setUserEmail("test0@qq.com");
+        int result = sqlSession.update("cn.hans.mapper.UserMapper.updateByIdSelective", user);
+        assertEquals(1, result);
+        SysUser user1 = sqlSession.selectOne("cn.hans.mapper.UserMapper.selectById", user);
+        assertEquals(user.getUserEmail(), user1.getUserEmail());
+        assertEquals("admin", user1.getUserName());
+    }
 }
