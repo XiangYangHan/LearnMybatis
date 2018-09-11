@@ -65,11 +65,37 @@
           id = #{id}
     </update>
 
+    <update id="updateNone">
+    <!--
+        语法错误
+    -->
+        update sys_user
+        where id = {id}
+    </update>
+
     <select id="selectById" resultType="SysUser">
         select id, user_name, user_email, user_password, user_info, head_img, create_time
         from sys_user
         where id = #{id}
     </select>
 
+    <insert id="insertSelectiveEmail" useGeneratedKeys="true" keyProperty="id">
+        <bind name="print" value="@cn.hans.util.TestBase@printParam(_parameter)"/>
+        insert into sys_user (
+          user_name, user_password
+          <if test="userEmail != '' and userEmail != null">
+              <!--
+                需要判断userEmail != null, 否则user_email字段并没有使用默认值
+              -->
+              ,user_email
+          </if>
+        )
+        values (
+          #{userName}, #{userPassword}
+          <if test="userEmail != null and userEmail != ''">
+              , #{userEmail}
+          </if>
+        )
+    </insert>
 
 </mapper>
