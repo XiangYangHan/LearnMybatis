@@ -1,5 +1,6 @@
 package cn.hans.model;
 
+import java.util.Arrays;
 import java.util.Date;
 
 /**
@@ -21,6 +22,17 @@ public class SysUser {
     private byte[] headImg;
 
     private Date createTime;
+
+    @Override
+    public String toString() {
+        return "SysUser{" +
+                "id=" + id +
+                ", userName='" + userName + '\'' +
+                ", userEmail='" + userEmail + '\'' +
+                ", headImg=" + Arrays.toString(headImg) +
+                ", createTime=" + createTime +
+                '}';
+    }
 
     public Long getId() {
         return id;

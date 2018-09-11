@@ -55,4 +55,8 @@ public class TestBase {
         System.out.println("method invoke in TestBase.closeSqlSession");
         sqlSession.close();
     }
+
+    public static void printParam(Object object) {
+        System.out.println(object);
+    }
 }
