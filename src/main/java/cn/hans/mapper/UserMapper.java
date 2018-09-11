@@ -19,4 +19,6 @@ public interface UserMapper {
     SysUser selectById(SysUser sysUser);
 
     int insertSelectiveEmail(SysUser sysUser);
+
+    SysUser selectByIdOrUserName(SysUser sysUser);
 }

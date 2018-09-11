@@ -72,4 +72,17 @@ public class UserMapperTest extends TestBase {
         sysUser = sqlSession.selectOne("cn.hans.mapper.UserMapper.selectById", sysUser);
         assertNotNull(sysUser.getUserEmail());
     }
+
+    @Test
+    public void testSelectByIdOrUserName() {
+        SysUser user = new SysUser();
+        user.setId(1L);
+        user.setUserEmail("admin@qq.com");
+        assertNotNull(sqlSession.selectOne("cn.hans.mapper.UserMapper.selectByIdOrUserName", user));
+        user.setId(null);
+        assertNotNull(sqlSession.selectOne("cn.hans.mapper.UserMapper.selectByIdOrUserName", user));
+        user.setUserEmail(null);
+        assertNull(sqlSession.selectOne("cn.hans.mapper.UserMapper.selectByIdOrUserName", user));
+    }
+
 }

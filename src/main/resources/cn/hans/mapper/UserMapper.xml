@@ -86,6 +86,7 @@
           <if test="userEmail != '' and userEmail != null">
               <!--
                 需要判断userEmail != null, 否则user_email字段并没有使用默认值
+                即：userEmail != '' 不能判断出来userEmail为null的情况，当userEmail为null时userEmail != null 判断结果为真
               -->
               ,user_email
           </if>
@@ -97,5 +98,22 @@
           </if>
         )
     </insert>
+
+    <select id="selectByIdOrUserName" resultType="SysUser">
+        select id, user_name, user_password, user_email, user_info, head_img, create_time
+        from sys_user
+        where 1 = 1
+        <choose>
+            <when test="id != null and id != ''">
+                and id = #{id}
+            </when>
+            <when test="userEmail != null and userEmail != ''">
+                and user_email = #{userEmail}
+            </when>
+            <otherwise>
+                and 1 = 2
+            </otherwise>
+        </choose>
+    </select>
 
 </mapper>
