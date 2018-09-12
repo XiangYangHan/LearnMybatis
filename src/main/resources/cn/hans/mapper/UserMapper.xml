@@ -30,18 +30,38 @@
           and user_email = #{userEmail}
           下面的写法则可以通过入参来动态改变SQL语句的查询条件。
         -->
-        where 1 = 1
-        <if test="userName != null and userName != ''">
-            and user_name like concat('%', #{userName}, '%')
-        </if>
-        <if test="userEmail != '' and userEmail != null">
-            and user_email  = #{userEmail}
-        </if>
+        <where>
+            <!--
+                where 1 = 1
+                当if条件都不满足的时候，where标签中没有元素，则在生成的SQL语句中不会出现where子句
+                当if条件至少满足一个时，where标签的内容是以and开头的条件，而MyBatis在生成SQL语句时会自动去掉where标签内开头的and
+            -->
+            <if test="userName != null and userName != ''">
+                and user_name like concat('%', #{userName}, '%')
+            </if>
+            <if test="userEmail != '' and userEmail != null">
+                and user_email  = #{userEmail}
+            </if>
+        </where>
     </select>
+
+    <!--
+        where和set标签的功能都可以用trim标签来实现，并在在底层都是通过TrimSqlNode实现
+        trim标签有如下属性：
+            prefix：当trim元素内包含内容时，会给内容增加prefix属性值作为前缀
+            prefixOverrides：当trim元素内包含内容时，会把内容中匹配的前缀字符串去掉
+            suffix：当trim元素内包含内容时，会给内容增加suffix属性值作为后缀
+            suffixOverrides：当trim元素内包含内容时，会把内容中匹配的后缀字符串去掉
+    -->
 
     <update id="updateByIdSelective">
         update sys_user
-        set
+        <set>
+          <!--
+            set标签的重要作用是：如果set标签的内容是以逗号(,)结尾的就将这个逗号剔除
+            若果set标签内没有内容，生成的SQL语句就没有set子句，这样仍然会出现SQL错误，所以set标签仍然没有解决全部问题
+          -->
+              id = #{id},
           <if test="userName != null and userName != ''">
               user_name = #{userName},
           </if>
@@ -60,7 +80,7 @@
           <if test="createTime != null">
               create_time = #{createTime, jdbcType=TIMESTAMP},
           </if>
-          id = #{id}
+        </set>
         where
           id = #{id}
     </update>
