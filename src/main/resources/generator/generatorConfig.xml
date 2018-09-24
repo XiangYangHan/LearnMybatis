@@ -19,7 +19,7 @@
             <property name="trimString" value="true"/>
         </javaModelGenerator>
 
-        <sqlMapGenerator targetPackage="cn.hans.generator.xml" targetProject="src\main\resources"/>
+        <sqlMapGenerator targetPackage="generator.xml" targetProject="src\main\resources"/>
 
         <javaClientGenerator type="XMLMAPPER" targetPackage="cn.hans.generator.dao" targetProject="src\main\java"/>
 
