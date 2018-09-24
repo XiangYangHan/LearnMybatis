@@ -9,6 +9,8 @@ import java.util.Date;
  */
 public class SysUser {
 
+    private SysRole role;
+
     private Long id;
 
     private String userName;
@@ -31,7 +33,16 @@ public class SysUser {
                 ", userEmail='" + userEmail + '\'' +
                 ", headImg=" + Arrays.toString(headImg) +
                 ", createTime=" + createTime +
+                ", sysRole=" + role +
                 '}';
+    }
+
+    public SysRole getRole() {
+        return role;
+    }
+
+    public void setRole(SysRole role) {
+        this.role = role;
     }
 
     public Long getId() {

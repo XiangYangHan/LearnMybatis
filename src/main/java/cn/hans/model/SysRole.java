@@ -18,6 +18,15 @@ public class SysRole {
 
     private Date createTime;
 
+    @Override
+    public String toString() {
+        return "SysRole{" +
+                "id=" + id +
+                ", roleName='" + roleName + '\'' +
+                ", enabled=" + enabled +
+                '}';
+    }
+
     public Long getId() {
         return id;
     }
