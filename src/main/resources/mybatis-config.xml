@@ -25,6 +25,8 @@
     </environments>
 
     <mappers>
+        <mapper resource="generator/xml/SysUserMapper.xml"/>
+        <!--<package name="cn.hans.generator.dao"/>-->
         <package name="cn.hans.mapper"/>
     </mappers>
 </configuration>

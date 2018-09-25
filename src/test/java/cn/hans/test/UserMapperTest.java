@@ -23,4 +23,18 @@ public class UserMapperTest extends TestBase {
         assertNotNull(sysUser.getRole());
         System.out.println(sysUser);
     }
+
+    @Test
+    public void selectUserByIdAndSelectRole() {
+        SysUser sysUser = sqlSession.selectOne("cn.hans.mapper.UserMapper.selectUserByIdAndSelectRole", 1L);
+        assertNotNull(sysUser);
+        assertNotNull(sysUser.getRole());
+    }
+
+    @Test
+    public void selectById() {
+        cn.hans.generator.model.SysUser sysUser = sqlSession.selectOne("cn.hans.generator.dao.SysUserMapper.selectByPrimaryKey", 1L);
+        assertNotNull(sysUser);
+        System.out.println(sysUser);
+    }
 }
