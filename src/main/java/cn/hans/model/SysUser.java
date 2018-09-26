@@ -37,6 +37,21 @@ public class SysUser {
                 '}';
     }
 
+    public SysUser() { }
+
+    public SysUser(Long id) {
+        this.id = id;
+    }
+
+    public SysUser(Long id, String userName, String userEmail, String userInfo, byte[] headImg, Date createTime) {
+        this.id = id;
+        this.userName = userName;
+        this.userEmail = userEmail;
+        this.userInfo = userInfo;
+        this.headImg = headImg;
+        this.createTime = createTime;
+    }
+
     public SysRole getRole() {
         return role;
     }

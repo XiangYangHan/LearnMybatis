@@ -19,11 +19,15 @@ import java.util.Collection;
  */
 public class TestBase {
 
+    static {
+        init();
+    }
+
     private static SqlSessionFactory sqlSessionFactory;
 
     public SqlSession sqlSession;
 
-    @BeforeClass
+//    @BeforeClass
     public static void init() {
         try {
             Reader reader = Resources.getResourceAsReader("mybatis-config.xml");

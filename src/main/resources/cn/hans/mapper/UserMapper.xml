@@ -25,7 +25,15 @@
     </select>
 
     <resultMap id="userMap" type="SysUser">
-        <id property="id" column="id"/>
+        <constructor>
+            <idArg column="id" jdbcType="BIGINT" javaType="long"/>
+            <!--<arg column="user_name" jdbcType="VARCHAR" javaType="string"/>-->
+            <!--<arg column="user_email" jdbcType="VARCHAR" javaType="string"/>-->
+            <!--<arg column="user_info" jdbcType="BLOB" javaType="string"/>-->
+            <!--<arg column="head_img" jdbcType="BLOB" javaType="_byte[]"/>-->
+            <!--<arg column="create_time" jdbcType="TIMESTAMP" javaType="date"/>-->
+        </constructor>
+        <!--<id property="id" column="id"/>-->
         <result column="user_name" property="userName"/>
         <result column="user_email" property="userEmail"/>
         <result column="user_info" property="userInfo"/>
@@ -51,19 +59,30 @@
         <association property="role" javaType="SysRole" columnPrefix="role_" resultMap="cn.hans.mapper.RoleMapper.roleMap"/>
     </resultMap>
 
-    <resultMap id="userRoleMapSelect" type="SysUser" extends="userMap">
+    <resultMap id="userMapSelectRole" type="SysUser" extends="userMap">
         <!--关联嵌套查询映射-->
         <!--
             association标签使用关联的嵌套查询映射时常见属性：
                 property：属性名称
                 select：查询语句id
-                column：关联嵌套查询条件
+                column：关联嵌套查询条件，有多个关联条件时使用逗号隔开，例如{id=role_id, name=role_name}, 此时在嵌套查询sql中只能使用#{id}\#{name}参数。
                 fetchType：数据加载方式，可选值为lazy和eager，分别为延迟加载和积极加载。该属性值会覆盖全局的lazyLoadingEnabled配置
         -->
+        <association property="role" select="cn.hans.mapper.RoleMapper.selectRoleById" column="{roleId=role_id}"/>
+    </resultMap>
+
+    <select id="selectUserByIdAndSelectRole" resultMap="cn.hans.mapper.UserMapper.userMapSelectRole">
+        select id, user_name, user_email, user_info, head_img, create_time, ur.role_id
+        from sys_user u
+        left join sys_user_role ur on u.id = ur.user_id
+        where id = #{id} and ur.role_id = 1
+    </select>
+
+    <resultMap id="userMapLazySelectRole" type="SysUser" extends="userMap">
         <association property="role" select="cn.hans.mapper.RoleMapper.selectRoleById" column="{roleId=role_id}" fetchType="lazy"/>
     </resultMap>
 
-    <select id="selectUserByIdAndSelectRole" resultMap="cn.hans.mapper.UserMapper.userRoleMapSelect">
+    <select id="selectUserByIdAndLazySelectRole" resultMap="cn.hans.mapper.UserMapper.userMapLazySelectRole">
         select id, user_name, user_email, user_info, head_img, create_time, ur.role_id
         from sys_user u
         left join sys_user_role ur on u.id = ur.user_id

@@ -2,6 +2,21 @@
 <!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "http://mybatis.org/dtd/mybatis-3-config.dtd">
 <configuration>
     <settings>
+        <!--
+            aggressiveLazyLoading:
+                取值为true时，调用任意field的setter方法都会时使延迟加载的field立即得到加载
+        -->
+        <setting name="aggressiveLazyLoading" value="false"/>
+
+        <!--
+            lazyLoadTriggerMethods:
+                当aggressive配置为false时，可以指定触发加载延迟加载field的方法名称，各个方法名称使用逗隔开。
+                该配置默认值为：equals,clone,hashCode,toString
+                注意设置该值时，分隔各个方法名称的逗号后面不能带有空格。
+                延迟加载field的getter方法不需要在这里指定被调用时也会触发加载field
+        -->
+        <setting name="lazyLoadTriggerMethods" value="equals,getId"/>
+
         <setting name="logImpl" value="LOG4J"/>
         <setting name="mapUnderscoreToCamelCase" value="true"/>
     </settings>
